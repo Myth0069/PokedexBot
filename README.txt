@@ -1,0 +1,1 @@
+Copy and paste your Bot Token into "environment.json"
