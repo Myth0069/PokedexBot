@@ -1,0 +1,1 @@
+some entries were manually changed in the items JSON, such as replacing [tilde e] for [e], and also a discrepency between color naming between the raw item list and website naming (e.g. GRN vs Green)
