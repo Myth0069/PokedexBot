@@ -1,0 +1,29 @@
+{
+
+    "ping": {
+	"name": "ping"
+    },
+    "pokedex": {
+	"name": "pokedex"
+    },
+
+    "pokemon": {
+	"name": "pokemon"
+    },
+
+    "pixelmon": {
+	"name": "pixelmon"
+    },
+
+    "item": {
+	"name": "item"
+    },
+    "smogon": {
+	"name": "smogon"
+    },
+    "smogon4": {
+	"name": "smogon4"
+    }
+
+
+}

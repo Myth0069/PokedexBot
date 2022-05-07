@@ -15,11 +15,11 @@ def wordScore(inputText): #defines a score for a word, stored in a numpy array
         step += 1
     return score
 
-def spellCheck(inputText, knownList):
+def spellCheck(inputText, knownList, key):
     score = wordScore(inputText)
     min = 9999999 #an extremely high value to intialize min
     for candidate in list:
-        sim = np.dot(score - wordscore(key), score - wordscore(key)) #the square of the length between the inputText and candidate word
+        sim = np.dot(score - wordScore(key), score - wordScore(key)) #the square of the length between the inputText and candidate word
         if sim < min:
             answer = candidate
             min = sim
