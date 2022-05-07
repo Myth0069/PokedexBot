@@ -15,7 +15,7 @@ with open(r'.\pokemonALPH.json', encoding="utf-8") as json_file:
 with open(r'.\itemALPH.json', encoding="utf-8") as json_file:
     itemList = json.load(json_file)
 
-with open(r'.\environment.json', encoding="utf-8") as json_file:
+with open(r'.\Menvironment.json', encoding="utf-8") as json_file:
     environment = json.load(json_file)
 
 with open(r'.\commands.json', encoding="utf-8") as json_file:
@@ -137,19 +137,22 @@ async def on_command_error(ctx, error):
     #    await ctx.send('Arg Found: ' + arg) #FOR DEBUG
     #await ctx.send(str(error)) #FOR DEBUG
     #await ctx.send('Spellcheck this: ' + Userin[0]) #FOR DEBUG
-    if args[0].lower() in ['p', 'pok']: #Beginning of alias cmd search
-        await pokemon(ctx, args[1])
-    elif args[0].lower() in ['pix']:
-        await pixelmon(ctx, args[1])
-    elif args[0].lower() in ['i']:
-        await item(ctx, args[1])
-    elif args[0].lower() in ['smogen']:
-        await smogon(ctx, args[1])
-    elif args[0].lower() in ['smogen4']:
-        await smogon4(ctx, args[1]) #end of alias cmd search
-    else:
-        try:
-
+    try:
+        if args[0].lower() in ['p', 'pok']: #Beginning of alias cmd search
+            await pokemon(ctx, args[1])
+        elif args[0].lower() in ['pix']:
+            await pixelmon(ctx, args[1])
+        elif args[0].lower() in ['i']:
+            await item(ctx, args[1])
+        elif args[0].lower() in ['smogen']:
+            await smogon(ctx, args[1])
+        elif args[0].lower() in ['smogen4']:
+            await smogon4(ctx, args[1]) #end of alias cmd search
+        elif len(args) == 1:
+            pass
+        elif (len(args) == 1) and str(args[0])[0] in ['.']:
+            pass
+        else:
             input = wordMatch(str(args[0]).lower(), commandList)
             dict = commandList[input]
             intendedCmd = dict["name"]
@@ -168,7 +171,7 @@ async def on_command_error(ctx, error):
                 await smogon(ctx, args[1])
             elif intendedCmd in ['smogon4']:
                 await smogon4(ctx, args[1])  # end of cmd spellcheck search
-        except:
-            await ctx.send("Command Not Found!")
+    except:
+        await ctx.send("Command Not Found!")
 
 client.run(environment["botToken"])
