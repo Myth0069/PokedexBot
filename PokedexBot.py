@@ -15,7 +15,7 @@ with open(r'.\pokemonALPH.json', encoding="utf-8") as json_file:
 with open(r'.\itemALPH.json', encoding="utf-8") as json_file:
     itemList = json.load(json_file)
 
-with open(r'.\Menvironment.json', encoding="utf-8") as json_file:
+with open(r'.\environment.json', encoding="utf-8") as json_file:
     environment = json.load(json_file)
 
 with open(r'.\commands.json', encoding="utf-8") as json_file:
