@@ -29,3 +29,46 @@ def spellCheck(inputText, knownDict):
             closestMacth = word
             bestScore = currentScore
     return str(closestMacth)
+
+# To use these functions, you need a nested python dictionary (a dictionary that contains sub-dictionaries)
+# For example, the first dictionary contains all of the words you want to define, and then a sub-dictionary must exist
+# for each word. In this sub-dictionary, it is recommended that you create a 'wordScore' key, which stores the wordScore
+# of that word.
+
+# Here is an example of a nested dictionary in JSON form:
+#
+# {
+#     "hydrogen": {
+#         "name": "hydrogen",
+#         "atomicNum": "1"
+#     },
+#     "helium": {
+#         "name": "helium",
+#         "atomicNum": "2"
+#     }
+# }
+# np.array is not serializable, so it can't be stored in JSON, but here it what should be generated to initialize the dictionary:
+# {
+#     "hydrogen": {
+#         "name": "hydrogen",
+#         "atomicNum": "1",
+#         "wordScore": "[np wordScoreArray]"
+#     },
+#     "helium": {
+#         "name": "helium",
+#         "atomicNum": "2",
+# #         "wordScore": "[np wordScoreArray]"
+#     }
+# }
+
+
+
+# with open(r'.\periodicTable.json', encoding="utf-8") as json_file:
+#     periodicTableList = json.load(json_file)
+#
+# [code above] this loads the JSON file as periodicTableList
+#
+# for element in periodicTableList:
+#     periodicTableList[element]['wordScore'] = sc.wordScore(element)
+
+# [code above] this goes through every element (the first dictionary), and makes a new key for 'wordScore'

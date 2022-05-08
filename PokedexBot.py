@@ -22,16 +22,13 @@ with open(r'.\commands.json', encoding="utf-8") as json_file:
     commandList = json.load(json_file)
 
 for key in pokemonList:
-    dictP = pokemonList[key]
-    dictP['wordScore'] = sc.wordScore(key)
+    pokemonList[key]['wordScore'] = sc.wordScore(key)
     
 for key in itemList:
-    dictI = itemList[key]
-    dictI['wordScore'] = sc.wordScore(key)
+    itemList[key]['wordScore'] = sc.wordScore(key)
 
 for key in commandList:
-    dictC = commandList[key]
-    dictC['wordScore'] = sc.wordScore(key)
+    commandList[key]['wordScore'] = sc.wordScore(key)
         
 client = commands.Bot(command_prefix = '.')
 
