@@ -15,12 +15,17 @@ def wordScore(inputText): #defines a score for a word, stored in a numpy array
         step += 1
     return score
 
-def spellCheck(inputText, knownList, key):
+def spellCheck(inputText, knownDict):
     score = wordScore(inputText)
-    min = 9999999 #an extremely high value to intialize min
-    for candidate in list:
-        sim = np.dot(score - wordScore(key), score - wordScore(key)) #the square of the length between the inputText and candidate word
-        if sim < min:
-            answer = candidate
-            min = sim
-    return str(answer)
+    bestScore = 9999999 #an extremely high value to intialize min
+    for word in knownDict:
+        #Looks at the entries for each word, then lookas the the wordScore for that word and compares it inputText
+        try:
+            currentScore = np.dot(score - knownDict[word]['wordScore'], score - knownDict[word]['wordScore']) #the square of the length between the inputText and candidate word
+        except: #This runs in the event that the wordscore for the dictionary wasn't pre-generated
+            knownDict['wordScore'] = wordScore(str(word))
+            currentScore = np.dot(score - knownDict[word]['wordScore'], score - knownDict[word]['wordScore'])
+        if currentScore < bestScore:
+            closestMacth = word
+            bestScore = currentScore
+    return str(closestMacth)

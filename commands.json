@@ -1,29 +1,35 @@
 {
 
     "ping": {
-	"name": "ping"
+	"name": "ping",
+	"aliases": "[]"
     },
     "pokedex": {
-	"name": "pokedex"
+	"name": "pokedex",
+	"aliases": "[dex]"
     },
-
     "pokemon": {
-	"name": "pokemon"
+	"name": "pokemon",
+	"aliases": "[p, pok]"
     },
-
-    "pixelmon": {
-	"name": "pixelmon"
+    "pixelmonmod": {
+	"name": "pixelmonmod",
+	"aliases": "[pix, pixelmon]"
     },
 
     "item": {
-	"name": "item"
+	"name": "item",
+	"aliases": "[i]"
     },
-    "smogon": {
-	"name": "smogon"
-    },
-    "smogon4": {
-	"name": "smogon4"
-    }
 
+    "smogon": {
+	"name": "smogon",
+	"aliases": "[smogen]"
+    },
+
+    "smogon4": {
+	"name": "smogon4",
+	"aliases": "[smogen4]"
+    }
 
 }
