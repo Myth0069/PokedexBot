@@ -7,6 +7,7 @@ import os
 import json
 import numpy as np
 import SpellCheck as sc
+import SpellCheck2 as sc2
 
 with open(r'.\pokemonALPH.json', encoding="utf-8") as json_file:
     pokemonList = json.load(json_file)
@@ -17,25 +18,18 @@ with open(r'.\itemALPH.json', encoding="utf-8") as json_file:
 with open(r'.\environment.json', encoding="utf-8") as json_file:
     environment = json.load(json_file)
 
+with open(r'.\commands.json', encoding="utf-8") as json_file:
+    commandList = json.load(json_file)
+
+# initialize all the wordscores for the dictionaries:
 for key in pokemonList:
-    dict = pokemonList[key]
-    dict['wordScore'] = sc.wordScore(key)
+    pokemonList[key]['wordScore'] = sc.wordScore(key)
     
 for key in itemList:
-    dict = itemList[key]
-    dict['wordScore'] = sc.wordScore(key)
+    itemList[key]['wordScore'] = sc.wordScore(key)
 
-def wordMatch(inputText, list):
-    score = sc.wordScore(inputText)
-    min = 9999999 #an extremely high value to intialize min
-    for key in list:
-        candidate = key
-        dict = list[key]
-        sim = np.dot(score - dict['wordScore'], score - dict['wordScore'])
-        if sim < min:
-            answer = candidate
-            min = sim
-    return str(answer)
+for key in commandList:
+    commandList[key]['wordScore'] = sc.wordScore(key)
         
 client = commands.Bot(command_prefix = '.')
 
@@ -52,56 +46,35 @@ async def ping(ctx):
 @client.command()
 async def pokedex(ctx, arg):
     try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
+        input = sc.spellCheck(str(arg).lower(), pokemonList)
         dict = pokemonList[input]
         await ctx.send(dict["bulbapedia"])
     except:
         await ctx.send("Pokemon Not Found!")
+#pokedex aliases
+#dex = pokedex
 
 @client.command()
 async def pokemon(ctx, arg):
     try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
+        input = sc.spellCheck(str(arg).lower(), pokemonList)
         dict = pokemonList[input]
         await ctx.send(dict["bulbapedia"])
     except:
         await ctx.send("Pokemon Not Found!")
+#pokemon aliases
+#pok =p = pokemon
 
 @client.command()
-async def pok(ctx, arg):
+async def pixelmonmod(ctx, arg):
     try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
-        dict = pokemonList[input]
-        await ctx.send(dict["bulbapedia"])
-    except:
-        await ctx.send("Pokemon Not Found!")
-
-@client.command()
-async def p(ctx, arg):
-    try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
-        dict = pokemonList[input]
-        await ctx.send(dict["bulbapedia"])
-    except:
-        await ctx.send("Pokemon Not Found!")
-
-@client.command()
-async def pixelmon(ctx, arg):
-    try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
+        input = sc.spellCheck(str(arg).lower(), pokemonList)
         dict = pokemonList[input]
         await ctx.send(dict["pixelmon"])
     except:
         await ctx.send("Pokemon Not Found!")
-
-@client.command()
-async def pix(ctx, arg):
-    try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
-        dict = pokemonList[input]
-        await ctx.send(dict["pixelmon"])
-    except:
-        await ctx.send("Pokemon Not Found!")
+#pixelmon aliases
+#pix = pixelmon = pixelmonmod
 
 @client.command()
 async def item(ctx, *args):
@@ -111,62 +84,85 @@ async def item(ctx, *args):
             value = value.lower()
             input = input + value + " "
         input = input[:-1]
-        input = wordMatch(input.lower(), itemList)
+        input = sc.spellCheck(input.lower(), itemList)
         dict = itemList[input]       
         await ctx.send(dict["pixelmon item url"])
     except:
         await ctx.send("Item Not Found!")
-
-@client.command()
-async def i(ctx, *args):
-    try:         
-        input =  ""
-        for value in args:
-            value = value.lower()
-            input = input + value + " "
-        input = input[:-1]
-        input = wordMatch(input.lower(), itemList)
-        dict = itemList[input]       
-        await ctx.send(dict["pixelmon item url"])
-    except:
-        await ctx.send("Item Not Found!")
+#item aliases
+#i = item
 
 #Start of Smogon Commands
 @client.command()
 async def smogon(ctx, arg):
     try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
+        input = sc.spellCheck(str(arg).lower(), pokemonList)
         dict = pokemonList[input]
         await ctx.send(dict["smogon"])
     except:
         await ctx.send("Pokemon Not Found!")
-
-@client.command()
-async def smogen(ctx, arg):
-    try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
-        dict = pokemonList[input]
-        await ctx.send(dict["smogon"])
-    except:
-        await ctx.send("Pokemon Not Found!")
+#smogon aliases
+#smogen = smogon
 
 @client.command()
 async def smogon4(ctx, arg):
     try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
+        input = sc.spellCheck(str(arg).lower(), pokemonList)
         dict = pokemonList[input]
         await ctx.send(dict["smogon4"])
     except:
         await ctx.send("Pokemon Not Found!")
+#smogon4 aliases
+#smogen4 = smogon4
 
-@client.command()
-async def smogen4(ctx, arg):
-    try: 
-        input = wordMatch(str(arg).lower(), pokemonList)
-        dict = pokemonList[input]
-        await ctx.send(dict["smogon4"])
+@client.event
+async def on_command_error(ctx, error):
+    args = ctx.message.content.split() #this creates a list of each word the user typed
+    args[0] = args[0][1:] #removes the [.] from the first arg
+    try:
+        if (len(args) == 1) and str(args[0])[0] in ['.']: #dont read if first two chars are ..
+            pass
+        elif args[0].lower() in ['p', 'pok']: #Beginning of alias cmd search
+            await pokemon(ctx, args[1])
+        elif args[0].lower() in ['dex']:  # Beginning of alias cmd search
+            await pokedex(ctx, args[1])
+        elif args[0].lower() in ['pix', 'pixelmon']:
+            await pixelmonmod(ctx, args[1])
+        elif args[0].lower() in ['i']:
+            itemArg = ""
+            for arg in args[1:]:
+                itemArg = itemArg + str(arg)
+            await item(ctx, itemArg)
+        elif args[0].lower() in ['smogen']:
+            await smogon(ctx, args[1])
+        elif args[0].lower() in ['smogen4']:
+            await smogon4(ctx, args[1]) #end of alias cmd search
+
+        else:
+            input = sc.spellCheck(str(args[0]).lower(), commandList)
+            dict = commandList[input]
+            intendedCmd = dict["name"]
+            #await ctx.send(intendedCmd)
+            if intendedCmd in ['ping']:  # Beginning of alias cmd search
+                await ping(ctx)
+            elif len(args) == 1:
+                pass
+            elif intendedCmd in ['pokedex']:  # Beginning of cmd spellcheck search
+                await pokedex(ctx, args[1])
+            elif intendedCmd in ['pokemon']:
+                await pokemon(ctx, args[1])
+            elif intendedCmd in ['pixelmon']:
+                await pixelmonmod(ctx, args[1])
+            elif intendedCmd in ['item']:
+                itemArg = ""
+                for arg in args[1:]:
+                    itemArg = itemArg + str(arg)
+                await item(ctx, itemArg)
+            elif intendedCmd in ['smogon']:
+                await smogon(ctx, args[1])
+            elif intendedCmd in ['smogon4']:
+                await smogon4(ctx, args[1])  # end of cmd spellcheck search
     except:
-        await ctx.send("Pokemon Not Found!")
-#End of Smogon Commands
+        await ctx.send("Command Not Found!")
 
 client.run(environment["botToken"])

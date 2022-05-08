@@ -1,0 +1,35 @@
+{
+
+    "ping": {
+	"name": "ping",
+	"aliases": "[]"
+    },
+    "pokedex": {
+	"name": "pokedex",
+	"aliases": "[dex]"
+    },
+    "pokemon": {
+	"name": "pokemon",
+	"aliases": "[p, pok]"
+    },
+    "pixelmonmod": {
+	"name": "pixelmonmod",
+	"aliases": "[pix, pixelmon]"
+    },
+
+    "item": {
+	"name": "item",
+	"aliases": "[i]"
+    },
+
+    "smogon": {
+	"name": "smogon",
+	"aliases": "[smogen]"
+    },
+
+    "smogon4": {
+	"name": "smogon4",
+	"aliases": "[smogen4]"
+    }
+
+}
