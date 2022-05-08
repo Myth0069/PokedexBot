@@ -1,13 +1,9 @@
 
 #TODO: condense code by figuring out how to handle command aliases
 
-import discord
 from discord.ext import commands
-import os
 import json
-import numpy as np
 import SpellCheck as sc
-import SpellCheck2 as sc2
 
 with open(r'.\pokemonALPH.json', encoding="utf-8") as json_file:
     pokemonList = json.load(json_file)
