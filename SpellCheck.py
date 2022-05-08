@@ -18,6 +18,7 @@ def wordScore(inputText): #defines a score for a word, stored in a numpy array
 def spellCheck(inputText, knownDict):
     score = wordScore(inputText)
     bestScore = 9999999 #an extremely high value to intialize min
+    closestMatch = ""
     for word in knownDict:
         #Looks at the entries for each word, then lookas the the wordScore for that word and compares it inputText
         try:
@@ -26,9 +27,9 @@ def spellCheck(inputText, knownDict):
             knownDict['wordScore'] = wordScore(str(word))
             currentScore = np.dot(score - knownDict[word]['wordScore'], score - knownDict[word]['wordScore'])
         if currentScore < bestScore:
-            closestMacth = word
+            closestMatch = word
             bestScore = currentScore
-    return str(closestMacth)
+    return str(closestMatch)
 
 # To use these functions, you need a nested python dictionary (a dictionary that contains sub-dictionaries)
 # For example, the first dictionary contains all of the words you want to define, and then a sub-dictionary must exist
@@ -61,7 +62,7 @@ def spellCheck(inputText, knownDict):
 #     }
 # }
 
-
+# You can convert this JSON to the nested dictionaries like this:
 
 # with open(r'.\periodicTable.json', encoding="utf-8") as json_file:
 #     periodicTableList = json.load(json_file)
