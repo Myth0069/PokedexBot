@@ -21,6 +21,7 @@ with open(r'.\environment.json', encoding="utf-8") as json_file:
 with open(r'.\commands.json', encoding="utf-8") as json_file:
     commandList = json.load(json_file)
 
+# initialize all the wordscores for the dictionaries:
 for key in pokemonList:
     pokemonList[key]['wordScore'] = sc.wordScore(key)
     
